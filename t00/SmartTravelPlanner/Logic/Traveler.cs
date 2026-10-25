@@ -57,6 +57,23 @@ namespace Travelling
             return string.Join(" -> ", route);
         }
 
+        public List<string> GetRouteCities()
+        {
+            return new List<string>(route);
+        }
+
+        public int GetTotalDistance(CityGraph map)
+        {
+            int totalDistance = map.GetPathDistance(route);
+
+            if (totalDistance == -1)
+            {
+                throw new RouteNotFoundException("No route exists for the current path.");
+            }
+
+            return totalDistance;
+        }
+
         public override string ToString()
         {
             return "Traveler: " + name + " | " + "Location: " + location + " | " + "Route: " + GetRoute();
@@ -105,7 +122,7 @@ namespace Travelling
         {
             get
             {
-                    return route[index];
+                return route[index];
             }
         }
 
@@ -114,7 +131,7 @@ namespace Travelling
             if (obj is Traveler other)
             {
                 return name == other.name && location == other.location;
-            }   
+            }
             return false;
         }
 
@@ -134,7 +151,7 @@ namespace Travelling
                 return false;
             }
             return a.Equals(b);
-            }
+        }
 
         public static bool operator !=(Traveler a, Traveler b)
         {
@@ -168,7 +185,7 @@ namespace Travelling
             File.WriteAllText(filePath, json);
         }
 
-       public static Traveler LoadFromFile(string filePath)
+        public static Traveler LoadFromFile(string filePath)
         {
             if (!File.Exists(filePath))
             {
@@ -207,7 +224,7 @@ namespace Travelling
             return traveler;
         }
 
-            public void PlanRouteTo(string destination, CityGraph map)
+        public void PlanRouteTo(string destination, CityGraph map)
         {
             string start;
 

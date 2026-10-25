@@ -63,7 +63,7 @@ namespace Travelling
             cityA = cityA.Trim();
             cityB = cityB.Trim();
 
-            cityA = GetStoredName(cityA);  
+            cityA = GetStoredName(cityA);
             cityB = GetStoredName(cityB);
 
             if (string.Equals(cityA, cityB, StringComparison.OrdinalIgnoreCase))
