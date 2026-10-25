@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Travelling
 {
@@ -205,18 +206,18 @@ namespace Travelling
                 throw new FileLoadException("Invalid travel data");
             }
 
-            if (data == null || data.name == null || data.route == null)
+            if (data == null || data.Name == null || data.Route == null)
             {
                 throw new FileLoadException("Invalid travel data");
             }
 
-            Traveler traveler = new Traveler(data.name);
-            if (data.currentLocation != null)
+            Traveler traveler = new Traveler(data.Name);
+            if (data.CurrentLocation != null)
             {
-                traveler.SetLocation(data.currentLocation);
+                traveler.SetLocation(data.CurrentLocation);
             }
 
-            foreach (var city in data.route)
+            foreach (var city in data.Route)
             {
                 traveler.AddCity(city);
             }
@@ -277,8 +278,11 @@ namespace Travelling
 
     public class TravelerData
     {
-        public string name { get; set; }
-        public string currentLocation { get; set; }
-        public string[] route { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+        [JsonPropertyName("currentLocation")]
+        public string CurrentLocation { get; set; }
+        [JsonPropertyName("route")]
+        public string[] Route { get; set; }
     }
 }
