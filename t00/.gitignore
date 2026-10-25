@@ -1,0 +1,29 @@
+# Build output
+bin/
+obj/
+debug/
+release/
+publish/
+
+# IDE / editor files
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userprefs
+*.DotSettings.user
+
+# macOS
+.DS_Store
+
+# Runtime files created by the app
+log.txt
+traveler.json
+
+# NuGet
+*.nupkg
+packages/
+
+# Test results
+TestResults/
