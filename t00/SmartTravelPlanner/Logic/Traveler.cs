@@ -207,7 +207,7 @@ namespace Travelling
             return traveler;
         }
 
-            public bool PlanRouteTo(string destination, CityGraph map)
+            public void PlanRouteTo(string destination, CityGraph map)
         {
             string start;
 
@@ -221,26 +221,33 @@ namespace Travelling
             }
             else
             {
-                Console.WriteLine("No route!");
-                return false;
+                throw new InvalidOperationException("Set the traveler's location first.");
             }
 
             if (string.IsNullOrWhiteSpace(destination))
             {
-                Console.WriteLine("No route!");
-                return false;
+                throw new ArgumentException("Destination cannot be empty.", nameof(destination));
             }
             else
             {
                 destination = CapitalizeWords(destination);
             }
 
+            if (!map.HasCity(start))
+            {
+                throw new ArgumentException($"Starting city '{start}' does not exist in the map.");
+            }
+
+            if (!map.HasCity(destination))
+            {
+                throw new ArgumentException($"Destination city '{destination}' does not exist in the map.");
+            }
+
             List<string> path = map.FindShortestPath(start, destination);
 
             if (path.Count == 0)
             {
-                Console.WriteLine("No route!");
-                return false;
+                throw new RouteNotFoundException($"No route exists between {start} and {destination}.");
             }
 
             ClearRoute();
@@ -248,7 +255,6 @@ namespace Travelling
             {
                 AddCity(city);
             }
-            return true;
         }
     }
 
