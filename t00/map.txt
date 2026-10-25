@@ -1,0 +1,4 @@
+Kyiv-Lviv,540
+Lviv-Warsaw,390
+Warsaw-Berlin,570
+Oslo-Stockholm,520
