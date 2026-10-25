@@ -1,50 +1,24 @@
+﻿using Avalonia;
 using System;
-using System.IO;
-using System.Collections.Generic;
 
-namespace Travelling
+namespace SmartTravelPlanner;
+
+class Program
 {
-    class Program
-    {
-        static void Main()
-        {
-            Console.Write("Enter map filename: ");
-            string fileName = Console.ReadLine();
-            CityGraph graph = CityGraph.LoadFromFile(fileName);
+    // Initialization code. Don't use any Avalonia, third-party APIs or any
+    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
+    // yet and stuff might break.
+    [STAThread]
+    public static void Main(string[] args) => BuildAvaloniaApp()
+        .StartWithClassicDesktopLifetime(args);
 
-            Console.Write("Enter traveler name: ");
-            string name = Console.ReadLine();
-
-            Console.Write("Enter starting location: ");
-            string start = Console.ReadLine();
-
-            Console.Write("Enter destination: ");
-            string destination = Console.ReadLine();
-
-            Traveler traveler = new Traveler(name);
-            traveler.SetLocation(start);
-
-            List<string> path = graph.FindShortestPath(traveler.GetLocation(), destination);
-
-            if (path.Count == 0)
-            {
-                Console.WriteLine("No route to find!");
-                return;
-            }
-
-            traveler.ClearRoute();
-            foreach (string city in path)
-            {
-                traveler.AddCity(city);
-            }
-
-            Console.WriteLine(traveler.GetTravelSummary());
-            Console.WriteLine($"Total distance: {graph.GetPathDistance(path)} km");
-
-            Logger<string> log = new Logger<string>();
-            log.Add($"Traveler {name} planned route {path[0]} -> {path[path.Count - 1]}");
-            log.Flush("log.txt");
-
-        }
-    }
+    // Avalonia configuration, don't remove; also used by visual designer.
+    public static AppBuilder BuildAvaloniaApp()
+        => AppBuilder.Configure<App>()
+            .UsePlatformDetect()
+#if DEBUG
+            .WithDeveloperTools()
+#endif
+            .WithInterFont()
+            .LogToTrace();
 }
