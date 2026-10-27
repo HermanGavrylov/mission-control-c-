@@ -44,4 +44,31 @@ public partial class MainWindow : Window
         _traveler.SetLocation(location);
         StatusTextBlock.Text = $"Traveler {name} created at {location}.";
     }
+
+    private void RefreshRouteDisplay()
+    {
+        if (_traveler == null)
+        {
+            RouteListBox.ItemsSource = null;
+            TotalDistanceTextBlock.Text = "Total Distance: -";
+            return;
+        }
+
+        RouteListBox.ItemsSource = _traveler.GetRouteCities();
+
+        if (_map == null || _traveler.GetRouteCities().Count < 2)
+        {
+            TotalDistanceTextBlock.Text = "Total Distance: 0km";
+            return;
+        }
+
+        try
+        {
+            TotalDistanceTextBlock.Text = $"Total Distance: {_traveler.GetTotalDistance(_map)} km";
+        }
+        catch (RouteNotFoundException)
+        {
+            TotalDistanceTextBlock.Text = "Distance unavailable for this map.";
+        }
+    }
 }
