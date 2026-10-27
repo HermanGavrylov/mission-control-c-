@@ -12,7 +12,7 @@
                     Click="CreateTravelerButton_Click" />
 
             <TextBlock Text="Map" FontWeight="Bold" />
-            <Button x:Name="LoadMapButton" Content="Load Map" />
+            <Button x:Name="LoadMapButton" Content="Load Map" Click="LoadMapButton_Click" />
             <TextBlock x:Name="MapStatusTextBlock" Text="No map loaded" />
 
             <TextBlock Text="Route" FontWeight="Bold" />

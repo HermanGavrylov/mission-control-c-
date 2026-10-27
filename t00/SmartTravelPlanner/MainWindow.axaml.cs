@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using Avalonia.Platform.Storage;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Travelling;
@@ -50,25 +53,71 @@ public partial class MainWindow : Window
         if (_traveler == null)
         {
             RouteListBox.ItemsSource = null;
-            TotalDistanceTextBlock.Text = "Total Distance: -";
+            TotalDistanceTextBlock.Text = "Total distance: -";
             return;
         }
 
         RouteListBox.ItemsSource = _traveler.GetRouteCities();
 
-        if (_map == null || _traveler.GetRouteCities().Count < 2)
+        if (_map == null || _traveler.GetStopCount() < 2)
         {
-            TotalDistanceTextBlock.Text = "Total Distance: 0km";
+            TotalDistanceTextBlock.Text = "Total distance: 0 km";
             return;
         }
 
         try
         {
-            TotalDistanceTextBlock.Text = $"Total Distance: {_traveler.GetTotalDistance(_map)} km";
+            TotalDistanceTextBlock.Text = $"Total distance: {_traveler.GetTotalDistance(_map)} km";
         }
         catch (RouteNotFoundException)
         {
             TotalDistanceTextBlock.Text = "Distance unavailable for this map.";
         }
     }
+
+    private async void LoadMapButton_Click(object? sender, RoutedEventArgs e)
+    {
+        var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Select a map file",
+            AllowMultiple = false,
+            FileTypeFilter = new[]
+            {
+                new FilePickerFileType("Text Files")
+                {
+                    Patterns = new[] { "*.txt" }
+                }
+            }
+        });
+
+        if (files.Count == 0)
+        {
+            return;
+        }
+
+        string? path = files[0].TryGetLocalPath();
+
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            ShowError("Could not read the selected file path.");
+            return;
+        }
+
+        try
+        {
+            _map = CityGraph.LoadFromFile(path);
+            MapStatusTextBlock.Text = Path.GetFileName(path);
+            StatusTextBlock.Text = $"Map loaded from {path}.";
+            RefreshRouteDisplay();
+        }
+        catch (FileNotFoundException)
+        {
+            ShowError("Map file not found.");
+        }
+        catch (FormatException ex)
+        {
+            ShowError(ex.Message);
+        }
+    }
+
 }
