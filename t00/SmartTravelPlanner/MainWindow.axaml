@@ -1,9 +1,43 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SmartTravelPlanner.MainWindow"
-        Title="SmartTravelPlanner">
-    Welcome to Avalonia!
+        Title="Smart Travel Planner"
+        Width="600" Height="700">
+    <ScrollViewer>
+        <StackPanel Margin="12" Spacing="8">
+            <TextBlock Text="Traveler" FontWeight="Bold" />
+            <TextBox x:Name="NameTextBox" Watermark="Name" />
+            <TextBox x:Name="LocationTextBox" Watermark="Location" />
+            <Button x:Name="CreateTravelerButton" Content="Create Traveler"
+                    Click="CreateTravelerButton_Click" />
+
+            <TextBlock Text="Map" FontWeight="Bold" />
+            <Button x:Name="LoadMapButton" Content="Load Map" />
+            <TextBlock x:Name="MapStatusTextBlock" Text="No map loaded" />
+
+            <TextBlock Text="Route" FontWeight="Bold" />
+            <TextBox x:Name="DestinationTextBox" Watermark="Destination" />
+            <Button x:Name="PlanRouteButton" Content="Plan Route" />
+            <ListBox x:Name="RouteListBox" Height="120" />
+            <TextBlock x:Name="TotalDistanceTextBlock" Text="Total distance: -" />
+
+            <TextBlock Text="Edit map" FontWeight="Bold" />
+            <TextBox x:Name="CityATextBox" Watermark="City A" />
+            <TextBox x:Name="CityBTextBox" Watermark="City B" />
+            <TextBox x:Name="DistanceTextBox" Watermark="Distance (km)" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button x:Name="AddConnectionButton" Content="Add" />
+                <Button x:Name="RemoveConnectionButton" Content="Remove" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button x:Name="SaveButton" Content="Save" />
+                <Button x:Name="LoadButton" Content="Load" />
+                <Button x:Name="ClearRouteButton" Content="Clear Route" />
+                <Button x:Name="ExitButton" Content="Exit" />
+            </StackPanel>
+
+            <TextBlock x:Name="StatusTextBlock" Text="" />
+        </StackPanel>
+    </ScrollViewer>
 </Window>
