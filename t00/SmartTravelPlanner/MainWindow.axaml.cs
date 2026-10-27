@@ -50,7 +50,7 @@ public partial class MainWindow : Window
 
     private void RefreshRouteDisplay()
     {
-        if (_traveler == null)
+        if (_traveler is null)
         {
             RouteListBox.ItemsSource = null;
             TotalDistanceTextBlock.Text = "Total distance: -";
@@ -59,7 +59,7 @@ public partial class MainWindow : Window
 
         RouteListBox.ItemsSource = _traveler.GetRouteCities();
 
-        if (_map == null || _traveler.GetStopCount() < 2)
+        if (_map is null || _traveler.GetStopCount() < 2)
         {
             TotalDistanceTextBlock.Text = "Total distance: 0 km";
             return;
@@ -103,6 +103,12 @@ public partial class MainWindow : Window
             return;
         }
 
+        if (!string.Equals(Path.GetExtension(path), ".txt", StringComparison.OrdinalIgnoreCase))
+        {
+            ShowError("Invalid file type. Please select a .txt file.");
+            return;
+        }
+
         try
         {
             _map = CityGraph.LoadFromFile(path);
@@ -120,4 +126,45 @@ public partial class MainWindow : Window
         }
     }
 
+    private void PlanRouteButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (_traveler is null)
+        {
+            ShowError("Create a traveler first.");
+            return;
+        }
+
+        if (_map is null)
+        {
+            ShowError("Load a map first.");
+            return;
+        }
+
+        string? destination = DestinationTextBox.Text;
+
+        if (string.IsNullOrWhiteSpace(destination))
+        {
+            ShowError("Destination cannot be empty.");
+            return;
+        }
+
+        try
+        {
+            _traveler.PlanRouteTo(destination.Trim(), _map);
+            RefreshRouteDisplay();
+            StatusTextBlock.Text = $"Route planned to {destination.Trim()}.";
+        }
+        catch (RouteNotFoundException ex)
+        {
+            ShowError(ex.Message);
+        }
+        catch (ArgumentException ex)
+        {
+            ShowError(ex.Message);
+        }
+        catch (InvalidOperationException ex)
+        {
+            ShowError(ex.Message);
+        }
+    }
 }

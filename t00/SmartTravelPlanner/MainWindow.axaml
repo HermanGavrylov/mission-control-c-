@@ -17,7 +17,7 @@
 
             <TextBlock Text="Route" FontWeight="Bold" />
             <TextBox x:Name="DestinationTextBox" Watermark="Destination" />
-            <Button x:Name="PlanRouteButton" Content="Plan Route" />
+            <Button x:Name="PlanRouteButton" Content="Plan Route" Click="PlanRouteButton_Click"/>
             <ListBox x:Name="RouteListBox" Height="120" />
             <TextBlock x:Name="TotalDistanceTextBlock" Text="Total distance: -" />
 
