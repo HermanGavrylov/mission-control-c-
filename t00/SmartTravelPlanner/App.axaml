@@ -1,10 +1,137 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="SmartTravelPlanner.App"
-             RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+             RequestedThemeVariant="Dark">
 
     <Application.Styles>
         <FluentTheme />
+
+        <Style Selector="TextBlock">
+            <Setter Property="FontFamily" Value="Menlo,Consolas,Courier New,monospace"/>
+            <Setter Property="Foreground" Value="#DDE3EE"/>
+        </Style>
+        <Style Selector="TextBox">
+            <Setter Property="FontFamily" Value="Menlo,Consolas,Courier New,monospace"/>
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="FontFamily" Value="Menlo,Consolas,Courier New,monospace"/>
+        </Style>
+        <Style Selector="ListBox">
+            <Setter Property="FontFamily" Value="Menlo,Consolas,Courier New,monospace"/>
+        </Style>
+
+        <Style Selector="Border.panel">
+            <Setter Property="Background" Value="#14161D"/>
+            <Setter Property="BorderBrush" Value="#D9B12B"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="18"/>
+            <Setter Property="BoxShadow" Value="5 5 0 0 #33D9B12B"/>
+        </Style>
+
+        <Style Selector="TextBlock.title">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#D9B12B"/>
+        </Style>
+        <Style Selector="TextBlock.label">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="#8A93A6"/>
+        </Style>
+        <Style Selector="TextBlock.muted">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#8A93A6"/>
+        </Style>
+        <Style Selector="TextBlock.total">
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#D9B12B"/>
+        </Style>
+
+        <Style Selector="TextBox">
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="Background" Value="#0C0D12"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#3D8FC0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CaretBrush" Value="#D9B12B"/>
+            <Setter Property="SelectionBrush" Value="#3D8FC0"/>
+        </Style>
+        <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#0C0D12"/>
+            <Setter Property="BorderBrush" Value="#74B9E0"/>
+        </Style>
+        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#0C0D12"/>
+            <Setter Property="BorderBrush" Value="#D9B12B"/>
+        </Style>
+
+        <Style Selector="ListBox">
+            <Setter Property="Background" Value="#0C0D12"/>
+            <Setter Property="BorderBrush" Value="#3D8FC0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+        <Style Selector="ListBoxItem">
+            <Setter Property="Foreground" Value="#DDE3EE"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#D9B12B"/>
+            <Setter Property="Foreground" Value="#0C0D12"/>
+        </Style>
+
+        <Style Selector="Button">
+            <Setter Property="Padding" Value="16,9"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
+        <Style Selector="Button.primary">
+            <Setter Property="Background" Value="#D9B12B"/>
+            <Setter Property="Foreground" Value="#0C0D12"/>
+            <Setter Property="BorderBrush" Value="#D9B12B"/>
+        </Style>
+        <Style Selector="Button.primary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#E8C95A"/>
+            <Setter Property="Foreground" Value="#0C0D12"/>
+            <Setter Property="BorderBrush" Value="#E8C95A"/>
+        </Style>
+        <Style Selector="Button.primary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#A8861C"/>
+            <Setter Property="Foreground" Value="#0C0D12"/>
+            <Setter Property="BorderBrush" Value="#A8861C"/>
+        </Style>
+
+        <Style Selector="Button.secondary">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#5FB0E0"/>
+            <Setter Property="BorderBrush" Value="#3D8FC0"/>
+        </Style>
+        <Style Selector="Button.secondary:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#223D8FC0"/>
+            <Setter Property="Foreground" Value="#8CCBEE"/>
+            <Setter Property="BorderBrush" Value="#74B9E0"/>
+        </Style>
+        <Style Selector="Button.secondary:pressed /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#443D8FC0"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#3D8FC0"/>
+        </Style>
+
+        <Style Selector="Button.danger">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#E0607A"/>
+            <Setter Property="BorderBrush" Value="#E0607A"/>
+        </Style>
+        <Style Selector="Button.danger:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="#22E0607A"/>
+            <Setter Property="Foreground" Value="#F09AAC"/>
+            <Setter Property="BorderBrush" Value="#F09AAC"/>
+        </Style>
     </Application.Styles>
 </Application>
