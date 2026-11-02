@@ -1,127 +1,43 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="760"
         x:Class="SmartTravelPlanner.MainWindow"
-        Width="1000" Height="760" MinWidth="820" MinHeight="620"
-        Background="#0C0D12"
-        Title="SmartTravelPlanner">
+        Title="Smart Travel Planner"
+        Width="600" Height="700">
+    <ScrollViewer>
+        <StackPanel Margin="12" Spacing="8">
+            <TextBlock Text="Traveler" FontWeight="Bold" />
+            <TextBox x:Name="NameTextBox" Watermark="Name" />
+            <TextBox x:Name="LocationTextBox" Watermark="Location" />
+            <Button x:Name="CreateTravelerButton" Content="Create Traveler"
+                    Click="CreateTravelerButton_Click" />
 
-    <Grid RowDefinitions="Auto,*">
+            <TextBlock Text="Map" FontWeight="Bold" />
+            <Button x:Name="LoadMapButton" Content="Load Map" Click="LoadMapButton_Click" />
+            <TextBlock x:Name="MapStatusTextBlock" Text="No map loaded" />
 
-        <Border Grid.Row="0" Background="#0C0D12"
-                BorderBrush="#D9B12B" BorderThickness="0,0,0,2"
-                Padding="24,14">
-            <Grid ColumnDefinitions="*,Auto">
-                <TextBlock Grid.Column="0" Text="SMART TRAVEL PLANNER"
-                           FontSize="20" FontWeight="Bold" Foreground="#D9B12B"/>
-                <TextBlock Grid.Column="1" Text="// hhavrylov&amp;oozyrskyi"
-                           Foreground="#5FB0E0" VerticalAlignment="Center"/>
-            </Grid>
-        </Border>
+            <TextBlock Text="Route" FontWeight="Bold" />
+            <TextBox x:Name="DestinationTextBox" Watermark="Destination" />
+            <Button x:Name="PlanRouteButton" Content="Plan Route" Click="PlanRouteButton_Click"/>
+            <ListBox x:Name="RouteListBox" Height="120" />
+            <TextBlock x:Name="TotalDistanceTextBlock" Text="Total distance: -" />
 
-        <ScrollViewer Grid.Row="1">
-            <StackPanel Margin="28" Spacing="24">
-
-                <Grid ColumnDefinitions="*,*" ColumnSpacing="24">
-
-                    <StackPanel Grid.Column="0" Spacing="24">
-
-                        <Border Classes="panel">
-                            <StackPanel Spacing="12">
-                                <TextBlock Classes="title" Text="01 / TRAVELER"/>
-                                <StackPanel Spacing="4">
-                                    <TextBlock Classes="label" Text="NAME"/>
-                                    <TextBox x:Name="NameTextBox" Watermark="Alice"/>
-                                </StackPanel>
-                                <StackPanel Spacing="4">
-                                    <TextBlock Classes="label" Text="CURRENT LOCATION"/>
-                                    <TextBox x:Name="LocationTextBox" Watermark="Kyiv"/>
-                                </StackPanel>
-                                <Button x:Name="CreateTravelerButton" Classes="primary"
-                                        Content="CREATE TRAVELER"
-                                        HorizontalAlignment="Left"/>
-                            </StackPanel>
-                        </Border>
-
-                        <Border Classes="panel">
-                            <StackPanel Spacing="12">
-                                <TextBlock Classes="title" Text="02 / MAP"/>
-                                <StackPanel Orientation="Horizontal" Spacing="14">
-                                    <Button x:Name="LoadMapButton" Classes="primary"
-                                            Content="LOAD MAP"/>
-                                    <TextBlock x:Name="MapStatusTextBlock" Classes="muted"
-                                               Text="No map loaded"
-                                               VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <Border Classes="panel">
-                            <StackPanel Spacing="12">
-                                <TextBlock Classes="title" Text="03 / DESTINATION"/>
-                                <StackPanel Spacing="4">
-                                    <TextBlock Classes="label" Text="CITY"/>
-                                    <TextBox x:Name="DestinationTextBox" Watermark="Berlin"/>
-                                </StackPanel>
-                                <Button x:Name="PlanRouteButton" Classes="primary"
-                                        Content="PLAN ROUTE"
-                                        HorizontalAlignment="Left"/>
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="1" Spacing="24">
-
-                        <Border Classes="panel">
-                            <StackPanel Spacing="12">
-                                <TextBlock Classes="title" Text="04 / ROUTE"/>
-                                <ListBox x:Name="RouteListBox" Height="200"/>
-                                <TextBlock x:Name="TotalDistanceTextBlock" Classes="total"
-                                           Text="Total distance: -"/>
-                            </StackPanel>
-                        </Border>
-
-                        <Border Classes="panel" Padding="22" MinHeight="230">
-                            <StackPanel Spacing="14">
-                                <TextBlock Classes="title" Text="05 / EDIT MAP"/>
-                                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
-                                    <StackPanel Grid.Column="0" Spacing="4">
-                                        <TextBlock Classes="label" Text="CITY A"/>
-                                        <TextBox x:Name="CityATextBox" Watermark="Kyiv"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1" Spacing="4">
-                                        <TextBlock Classes="label" Text="CITY B"/>
-                                        <TextBox x:Name="CityBTextBox" Watermark="Lviv"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="2" Spacing="4">
-                                        <TextBlock Classes="label" Text="KM"/>
-                                        <TextBox x:Name="DistanceTextBox" Watermark="540"/>
-                                    </StackPanel>
-                                </Grid>
-                                <StackPanel Orientation="Horizontal" Spacing="12">
-                                    <Button x:Name="AddConnectionButton" Classes="primary"
-                                            Content="ADD"/>
-                                    <Button x:Name="RemoveConnectionButton" Classes="secondary"
-                                            Content="REMOVE"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
-                </Grid>
-
-                <Border BorderBrush="#3D8FC0" BorderThickness="0,1,0,0" Padding="0,18,0,0">
-                    <StackPanel Orientation="Horizontal" Spacing="12"
-                                HorizontalAlignment="Right">
-                        <Button x:Name="SaveButton" Classes="primary" Content="SAVE"/>
-                        <Button x:Name="LoadButton" Classes="secondary" Content="LOAD"/>
-                        <Button x:Name="ClearRouteButton" Classes="secondary" Content="CLEAR ROUTE"/>
-                        <Button x:Name="ExitButton" Classes="danger" Content="EXIT"/>
-                    </StackPanel>
-                </Border>
-
+            <TextBlock Text="Edit map" FontWeight="Bold" />
+            <TextBox x:Name="CityATextBox" Watermark="City A" />
+            <TextBox x:Name="CityBTextBox" Watermark="City B" />
+            <TextBox x:Name="DistanceTextBox" Watermark="Distance (km)" />
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button x:Name="AddConnectionButton" Content="Add" />
+                <Button x:Name="RemoveConnectionButton" Content="Remove" />
             </StackPanel>
-        </ScrollViewer>
-    </Grid>
+
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button x:Name="SaveButton" Content="Save" />
+                <Button x:Name="LoadButton" Content="Load" />
+                <Button x:Name="ClearRouteButton" Content="Clear Route" />
+                <Button x:Name="ExitButton" Content="Exit" />
+            </StackPanel>
+
+            <TextBlock x:Name="StatusTextBlock" Text="" />
+        </StackPanel>
+    </ScrollViewer>
 </Window>
