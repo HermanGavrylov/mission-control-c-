@@ -33,11 +33,11 @@
                                 <TextBlock Classes="title" Text="01 / TRAVELER"/>
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="label" Text="NAME"/>
-                                    <TextBox x:Name="NameTextBox" Watermark="Alice"/>
+                                    <TextBox x:Name="NameTextBox" PlaceholderText="Alice"/>
                                 </StackPanel>
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="label" Text="CURRENT LOCATION"/>
-                                    <TextBox x:Name="LocationTextBox" Watermark="Kyiv"/>
+                                    <TextBox x:Name="LocationTextBox" PlaceholderText="Kyiv"/>
                                 </StackPanel>
                                 <Button x:Name="CreateTravelerButton" Classes="primary"
                                         Content="CREATE TRAVELER"
@@ -65,7 +65,7 @@
                                 <TextBlock Classes="title" Text="03 / DESTINATION"/>
                                 <StackPanel Spacing="4">
                                     <TextBlock Classes="label" Text="CITY"/>
-                                    <TextBox x:Name="DestinationTextBox" Watermark="Berlin"/>
+                                    <TextBox x:Name="DestinationTextBox" PlaceholderText="Berlin"/>
                                 </StackPanel>
                                 <Button x:Name="PlanRouteButton" Classes="primary"
                                         Content="PLAN ROUTE"
@@ -92,15 +92,15 @@
                                 <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
                                     <StackPanel Grid.Column="0" Spacing="4">
                                         <TextBlock Classes="label" Text="CITY A"/>
-                                        <TextBox x:Name="CityATextBox" Watermark="Kyiv"/>
+                                        <TextBox x:Name="CityATextBox" PlaceholderText="Kyiv"/>
                                     </StackPanel>
                                     <StackPanel Grid.Column="1" Spacing="4">
                                         <TextBlock Classes="label" Text="CITY B"/>
-                                        <TextBox x:Name="CityBTextBox" Watermark="Lviv"/>
+                                        <TextBox x:Name="CityBTextBox" PlaceholderText="Lviv"/>
                                     </StackPanel>
                                     <StackPanel Grid.Column="2" Spacing="4">
                                         <TextBlock Classes="label" Text="KM"/>
-                                        <TextBox x:Name="DistanceTextBox" Watermark="540"/>
+                                        <TextBox x:Name="DistanceTextBox" PlaceholderText="540"/>
                                     </StackPanel>
                                 </Grid>
                                 <StackPanel Orientation="Horizontal" Spacing="12">
