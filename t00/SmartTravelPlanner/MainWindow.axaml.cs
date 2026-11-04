@@ -129,6 +129,102 @@ namespace SmartTravelPlanner
             RefreshRoute();
         }
 
+        private async void AddConnection_Click(object? sender, RoutedEventArgs e)
+        {
+            if (graph == null)
+            {
+                await ErrorDialog.ShowAsync(this, "Load a map first.");
+                return;
+            }
+
+            string? cityA = CityATextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(cityA))
+            {
+                await ErrorDialog.ShowAsync(this, "City A cannot be empty.");
+                return;
+            }
+
+            cityA = cityA.Trim();
+
+            string? cityB = CityBTextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(cityB))
+            {
+                await ErrorDialog.ShowAsync(this, "City B cannot be empty.");
+                return;
+            }
+
+            cityB = cityB.Trim();
+
+            string? distanceText = DistanceTextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(distanceText))
+            {
+                await ErrorDialog.ShowAsync(this, "Distance cannot be empty.");
+                return;
+            }
+
+            distanceText = distanceText.Trim();
+
+            if (!int.TryParse(distanceText, out int distance))
+            {
+                await ErrorDialog.ShowAsync(this, "Distance must be a whole number.");
+                return;
+            }
+
+            try
+            {
+                graph.AddConnection(cityA, cityB, distance);
+                RefreshRoute();
+                MapStatusTextBlock.Text = $"Added: {cityA} - {cityB}, {distance} km";
+            }
+            catch (ArgumentException ex)
+            {
+                await ErrorDialog.ShowAsync(this, ex.Message);
+            }
+        }
+
+        private async void RemoveConnection_Click(object? sender, RoutedEventArgs e)
+        {
+            if (graph == null)
+            {
+                await ErrorDialog.ShowAsync(this, "Load a map first.");
+                return;
+            }
+
+            string? cityA = CityATextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(cityA))
+            {
+                await ErrorDialog.ShowAsync(this, "City A cannot be empty.");
+                return;
+            }
+
+            cityA = cityA.Trim();
+
+            string? cityB = CityBTextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(cityB))
+            {
+                await ErrorDialog.ShowAsync(this, "City B cannot be empty.");
+                return;
+            }
+
+            cityB = cityB.Trim();
+
+            bool removed = graph.RemoveConnection(cityA, cityB);
+
+            if (!removed)
+            {
+                await ErrorDialog.ShowAsync(this, "No connection between these cities.");
+                return;
+            }
+
+            RefreshRoute();
+            MapStatusTextBlock.Text = $"Removed: {cityA} - {cityB}";
+        }
+
         private async void Save_Click(object? sender, RoutedEventArgs e)
         {
             if (traveler == null)

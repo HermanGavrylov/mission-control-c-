@@ -105,9 +105,9 @@
                                 </Grid>
                                 <StackPanel Orientation="Horizontal" Spacing="12">
                                     <Button x:Name="AddConnectionButton" Classes="primary"
-                                            Content="ADD"/>
+                                            Content="ADD" Click="AddConnection_Click"/>
                                     <Button x:Name="RemoveConnectionButton" Classes="secondary"
-                                            Content="REMOVE"/>
+                                            Content="REMOVE" Click="RemoveConnection_Click"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
