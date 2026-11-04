@@ -148,13 +148,26 @@ namespace SmartTravelPlanner
                 return;
             }
 
+            string? path = file.TryGetLocalPath();
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                await ErrorDialog.ShowAsync(this, "Could not read the selected file path.");
+                return;
+            }
+
             try
             {
-                traveler.SaveToFile(file.Path.LocalPath);
+                traveler.SaveToFile(path);
+                MapStatusTextBlock.Text = "Saved: " + Path.GetFileName(path);
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
-                await ErrorDialog.ShowAsync(this, ex.Message);
+                await ErrorDialog.ShowAsync(this, "Error saving traveler: " + ex.Message);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await ErrorDialog.ShowAsync(this, "You don't have permission to save to this location.");
             }
         }
 
