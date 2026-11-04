@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -48,12 +49,31 @@ namespace SmartTravelPlanner
                 return;
             }
 
+            string? path = files[0].TryGetLocalPath();
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                await ErrorDialog.ShowAsync(this, "Could not read the selected file path.");
+                return;
+            }
+
+            if (!string.Equals(Path.GetExtension(path), ".txt", StringComparison.OrdinalIgnoreCase))
+            {
+                await ErrorDialog.ShowAsync(this, "Invalid file type. Please select a .txt file.");
+                return;
+            }
+
             try
             {
-                graph = CityGraph.LoadFromFile(files[0].Path.LocalPath);
-                MapStatusTextBlock.Text = "Loaded: " + files[0].Name;
+                graph = CityGraph.LoadFromFile(path);
+                MapStatusTextBlock.Text = "Loaded: " + Path.GetFileName(path);
+                RefreshRoute();
             }
-            catch (Exception ex)
+            catch (FileNotFoundException)
+            {
+                await ErrorDialog.ShowAsync(this, "Map file not found.");
+            }
+            catch (FormatException ex)
             {
                 await ErrorDialog.ShowAsync(this, ex.Message);
             }
