@@ -123,10 +123,16 @@ namespace SmartTravelPlanner
             }
         }
 
-        private void ClearRoute_Click(object? sender, RoutedEventArgs e)
+        private async void ClearRoute_Click(object? sender, RoutedEventArgs e)
         {
-            traveler?.ClearRoute();
+            if (traveler is null)
+            {
+                await ErrorDialog.ShowAsync(this, "Create a traveler first.");
+                return;
+            }
+            traveler.ClearRoute();
             RefreshRoute();
+            MapStatusTextBlock.Text = "Route cleared.";
         }
 
         private async void AddConnection_Click(object? sender, RoutedEventArgs e)
