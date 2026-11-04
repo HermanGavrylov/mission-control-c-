@@ -9,7 +9,7 @@ namespace Travelling
     public class Traveler : ICloneable
     {
         protected string name;
-        protected string location;
+        protected string? location;
         protected List<string> route = new List<string>();
 
         private string CapitalizeWords(string input)
@@ -40,7 +40,7 @@ namespace Travelling
             this.location = CapitalizeWords(location);
         }
 
-        public string GetLocation()
+        public string? GetLocation()
         {
             return location;
         }
@@ -107,7 +107,7 @@ namespace Travelling
             return route.Remove(city);
         }
 
-        public string GetNextStop()
+        public string? GetNextStop()
         {
             if (route.Count > 0)
             {
@@ -127,7 +127,7 @@ namespace Travelling
             }
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is Traveler other)
             {
@@ -141,7 +141,7 @@ namespace Travelling
             return (name + location).GetHashCode();
         }
 
-        public static bool operator ==(Traveler a, Traveler b)
+        public static bool operator ==(Traveler? a, Traveler? b)
         {
             if (ReferenceEquals(a, b))
             {
@@ -154,7 +154,7 @@ namespace Travelling
             return a.Equals(b);
         }
 
-        public static bool operator !=(Traveler a, Traveler b)
+        public static bool operator !=(Traveler? a, Traveler? b)
         {
             return !(a == b);
         }
@@ -177,6 +177,7 @@ namespace Travelling
             List<string> cities = new List<string>();
             route.ForEach(city => cities.Add(JsonSerializer.Serialize(city)));
 
+
             string json =
                 "{\n" +
                 $"  \"name\": {JsonSerializer.Serialize(name)},\n" +
@@ -194,7 +195,7 @@ namespace Travelling
             }
 
             string json = File.ReadAllText(filePath);
-            TravelerData data;
+            TravelerData? data;
 
             try
             {
@@ -206,7 +207,7 @@ namespace Travelling
                 throw new FileLoadException("Invalid travel data");
             }
 
-            if (data == null || data.Name == null || data.Route == null)
+            if (data is null || string.IsNullOrWhiteSpace(data.Name))
             {
                 throw new FileLoadException("Invalid travel data");
             }
@@ -231,7 +232,7 @@ namespace Travelling
 
             if (!string.IsNullOrWhiteSpace(location))
             {
-                start = GetLocation();
+                start = location;
             }
             else if (GetStopCount() > 0)
             {
@@ -279,10 +280,10 @@ namespace Travelling
     public class TravelerData
     {
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         [JsonPropertyName("currentLocation")]
-        public string CurrentLocation { get; set; }
+        public string? CurrentLocation { get; set; }
         [JsonPropertyName("route")]
-        public string[] Route { get; set; }
+        public string[] Route { get; set; } = Array.Empty<string>();
     }
 }
