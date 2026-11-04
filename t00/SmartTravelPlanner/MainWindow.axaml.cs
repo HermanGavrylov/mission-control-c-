@@ -28,9 +28,30 @@ namespace SmartTravelPlanner
                 return;
             }
 
-            traveler = new Traveler(NameTextBox.Text.Trim());
-            traveler.SetLocation(LocationTextBox.Text.Trim());
+            string? name = NameTextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                await ErrorDialog.ShowAsync(this, "Name cannot be empty.");
+                return;
+            }
+
+            name = name.Trim();
+
+            string? location = LocationTextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(location))
+            {
+                await ErrorDialog.ShowAsync(this, "Location cannot be empty.");
+                return;
+            }
+
+            location = location.Trim();
+
+            traveler = new Traveler(name);
+            traveler.SetLocation(location);
             RefreshRoute();
+            MapStatusTextBlock.Text = $"Traveler {name} created at {location}.";
         }
 
         private async void LoadMap_Click(object? sender, RoutedEventArgs e)
@@ -82,13 +103,13 @@ namespace SmartTravelPlanner
 
         private async void PlanRoute_Click(object? sender, RoutedEventArgs e)
         {
-            if (traveler == null)
+            if (traveler is null)
             {
                 await ErrorDialog.ShowAsync(this, "Create a traveler first.");
                 return;
             }
 
-            if (graph == null)
+            if (graph is null)
             {
                 await ErrorDialog.ShowAsync(this, "Load a map first.");
                 return;
@@ -130,6 +151,7 @@ namespace SmartTravelPlanner
                 await ErrorDialog.ShowAsync(this, "Create a traveler first.");
                 return;
             }
+
             traveler.ClearRoute();
             RefreshRoute();
             MapStatusTextBlock.Text = "Route cleared.";
@@ -137,7 +159,7 @@ namespace SmartTravelPlanner
 
         private async void AddConnection_Click(object? sender, RoutedEventArgs e)
         {
-            if (graph == null)
+            if (graph is null)
             {
                 await ErrorDialog.ShowAsync(this, "Load a map first.");
                 return;
@@ -193,7 +215,7 @@ namespace SmartTravelPlanner
 
         private async void RemoveConnection_Click(object? sender, RoutedEventArgs e)
         {
-            if (graph == null)
+            if (graph is null)
             {
                 await ErrorDialog.ShowAsync(this, "Load a map first.");
                 return;
@@ -233,7 +255,7 @@ namespace SmartTravelPlanner
 
         private async void Save_Click(object? sender, RoutedEventArgs e)
         {
-            if (traveler == null)
+            if (traveler is null)
             {
                 await ErrorDialog.ShowAsync(this, "Create a traveler first.");
                 return;
@@ -246,7 +268,7 @@ namespace SmartTravelPlanner
                 DefaultExtension = "json"
             });
 
-            if (file == null)
+            if (file is null)
             {
                 return;
             }
@@ -315,8 +337,8 @@ namespace SmartTravelPlanner
             {
                 Traveler loaded = Traveler.LoadFromFile(path);
                 traveler = loaded;
-                NameTextBox.Text = traveler.GetName();
-                LocationTextBox.Text = traveler.GetLocation();
+                NameTextBox.Text = loaded.GetName();
+                LocationTextBox.Text = loaded.GetLocation() ?? "";
                 RefreshRoute();
             }
             catch (FileNotFoundException)
@@ -338,7 +360,7 @@ namespace SmartTravelPlanner
             List<string> cities = traveler?.GetRouteCities() ?? new List<string>();
             RouteListBox.ItemsSource = cities;
 
-            if (traveler == null || graph == null || cities.Count < 2)
+            if (traveler is null || graph is null || cities.Count < 2)
             {
                 TotalDistanceTextBlock.Text = "Total distance: -";
                 return;
@@ -348,7 +370,7 @@ namespace SmartTravelPlanner
             {
                 TotalDistanceTextBlock.Text = "Total distance: " + traveler.GetTotalDistance(graph) + " km";
             }
-            catch (Exception)
+            catch (RouteNotFoundException)
             {
                 TotalDistanceTextBlock.Text = "Total distance: -";
             }
