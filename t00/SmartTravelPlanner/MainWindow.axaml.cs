@@ -11,8 +11,8 @@ namespace SmartTravelPlanner
 {
     public partial class MainWindow : Window
     {
-        private Traveler? traveler;
-        private CityGraph? graph;
+        private Traveler? _traveler;
+        private CityGraph? _map;
 
         public MainWindow()
         {
@@ -21,13 +21,6 @@ namespace SmartTravelPlanner
 
         private async void CreateTraveler_Click(object? sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(NameTextBox.Text)
-                || string.IsNullOrWhiteSpace(LocationTextBox.Text))
-            {
-                await ErrorDialog.ShowAsync(this, "Name and location cannot be empty.");
-                return;
-            }
-
             string? name = NameTextBox.Text;
 
             if (string.IsNullOrWhiteSpace(name))
@@ -48,8 +41,8 @@ namespace SmartTravelPlanner
 
             location = location.Trim();
 
-            traveler = new Traveler(name);
-            traveler.SetLocation(location);
+            _traveler = new Traveler(name);
+            _traveler.SetLocation(location);
             RefreshRoute();
             MapStatusTextBlock.Text = $"Traveler {name} created at {location}.";
         }
@@ -87,7 +80,7 @@ namespace SmartTravelPlanner
 
             try
             {
-                graph = CityGraph.LoadFromFile(path);
+                _map = CityGraph.LoadFromFile(path);
                 MapStatusTextBlock.Text = "Loaded: " + Path.GetFileName(path);
                 RefreshRoute();
             }
@@ -103,13 +96,13 @@ namespace SmartTravelPlanner
 
         private async void PlanRoute_Click(object? sender, RoutedEventArgs e)
         {
-            if (traveler is null)
+            if (_traveler is null)
             {
                 await ErrorDialog.ShowAsync(this, "Create a traveler first.");
                 return;
             }
 
-            if (graph is null)
+            if (_map is null)
             {
                 await ErrorDialog.ShowAsync(this, "Load a map first.");
                 return;
@@ -127,7 +120,7 @@ namespace SmartTravelPlanner
 
             try
             {
-                traveler.PlanRouteTo(destination, graph);
+                _traveler.PlanRouteTo(destination, _map);
                 RefreshRoute();
             }
             catch (RouteNotFoundException ex)
@@ -146,20 +139,20 @@ namespace SmartTravelPlanner
 
         private async void ClearRoute_Click(object? sender, RoutedEventArgs e)
         {
-            if (traveler is null)
+            if (_traveler is null)
             {
                 await ErrorDialog.ShowAsync(this, "Create a traveler first.");
                 return;
             }
 
-            traveler.ClearRoute();
+            _traveler.ClearRoute();
             RefreshRoute();
             MapStatusTextBlock.Text = "Route cleared.";
         }
 
         private async void AddConnection_Click(object? sender, RoutedEventArgs e)
         {
-            if (graph is null)
+            if (_map is null)
             {
                 await ErrorDialog.ShowAsync(this, "Load a map first.");
                 return;
@@ -203,7 +196,7 @@ namespace SmartTravelPlanner
 
             try
             {
-                graph.AddConnection(cityA, cityB, distance);
+                _map.AddConnection(cityA, cityB, distance);
                 RefreshRoute();
                 MapStatusTextBlock.Text = $"Added: {cityA} - {cityB}, {distance} km";
             }
@@ -215,7 +208,7 @@ namespace SmartTravelPlanner
 
         private async void RemoveConnection_Click(object? sender, RoutedEventArgs e)
         {
-            if (graph is null)
+            if (_map is null)
             {
                 await ErrorDialog.ShowAsync(this, "Load a map first.");
                 return;
@@ -241,7 +234,7 @@ namespace SmartTravelPlanner
 
             cityB = cityB.Trim();
 
-            bool removed = graph.RemoveConnection(cityA, cityB);
+            bool removed = _map.RemoveConnection(cityA, cityB);
 
             if (!removed)
             {
@@ -255,7 +248,7 @@ namespace SmartTravelPlanner
 
         private async void Save_Click(object? sender, RoutedEventArgs e)
         {
-            if (traveler is null)
+            if (_traveler is null)
             {
                 await ErrorDialog.ShowAsync(this, "Create a traveler first.");
                 return;
@@ -289,7 +282,7 @@ namespace SmartTravelPlanner
 
             try
             {
-                traveler.SaveToFile(path);
+                _traveler.SaveToFile(path);
                 MapStatusTextBlock.Text = "Saved: " + Path.GetFileName(path);
             }
             catch (IOException ex)
@@ -336,7 +329,7 @@ namespace SmartTravelPlanner
             try
             {
                 Traveler loaded = Traveler.LoadFromFile(path);
-                traveler = loaded;
+                _traveler = loaded;
                 NameTextBox.Text = loaded.GetName();
                 LocationTextBox.Text = loaded.GetLocation() ?? "";
                 RefreshRoute();
@@ -357,10 +350,10 @@ namespace SmartTravelPlanner
 
         private void RefreshRoute()
         {
-            List<string> cities = traveler?.GetRouteCities() ?? new List<string>();
+            List<string> cities = _traveler?.GetRouteCities() ?? new List<string>();
             RouteListBox.ItemsSource = cities;
 
-            if (traveler is null || graph is null || cities.Count < 2)
+            if (_traveler is null || _map is null || cities.Count < 2)
             {
                 TotalDistanceTextBlock.Text = "Total distance: -";
                 return;
@@ -368,7 +361,7 @@ namespace SmartTravelPlanner
 
             try
             {
-                TotalDistanceTextBlock.Text = "Total distance: " + traveler.GetTotalDistance(graph) + " km";
+                TotalDistanceTextBlock.Text = "Total distance: " + _traveler.GetTotalDistance(_map) + " km";
             }
             catch (RouteNotFoundException)
             {
