@@ -6,7 +6,7 @@ namespace Travelling
 {
     public class Edge
     {
-        public string To { get; set; }
+        public string To { get; set; } = string.Empty;
         public int Distance { get; set; }
     }
 
@@ -136,7 +136,7 @@ namespace Travelling
 
             while (true)
             {
-                string currentCity = null;
+                string? currentCity = null;
                 int currentDistance = int.MaxValue;
 
                 foreach (var city in distances.Keys)
@@ -173,7 +173,7 @@ namespace Travelling
             }
 
             var path = new List<string>();
-            string step = to;
+            string? step = to;
 
             while (step != null)
             {
@@ -190,12 +190,12 @@ namespace Travelling
 
             for (int i = 0; i < path.Count - 1; i++)
             {
-                if (!adjacencyList.TryGetValue(path[i], out List<Edge> edges))
+                if (!adjacencyList.TryGetValue(path[i], out List<Edge>? edges))
                 {
                     return -1;
                 }
 
-                Edge edge = edges.Find(e => SameCity(e.To, path[i + 1]));
+                Edge? edge = edges.Find(e => SameCity(e.To, path[i + 1]));
 
                 if (edge == null)
                 {
@@ -225,13 +225,13 @@ namespace Travelling
 
         private void SetEdge(string from, string to, int distance)
         {
-            if (!adjacencyList.TryGetValue(from, out List<Edge> edges))
+            if (!adjacencyList.TryGetValue(from, out List<Edge>? edges))
             {
                 edges = new List<Edge>();
                 adjacencyList[from] = edges;
             }
 
-            Edge existing = edges.Find(e => SameCity(e.To, to));
+            Edge? existing = edges.Find(e => SameCity(e.To, to));
 
             if (existing != null)
             {
