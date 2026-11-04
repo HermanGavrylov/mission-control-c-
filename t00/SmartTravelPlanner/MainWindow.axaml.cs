@@ -19,7 +19,7 @@ namespace SmartTravelPlanner
             InitializeComponent();
         }
 
-        private async void CreateTraveler_Click(object? sender, RoutedEventArgs e)
+        private async void CreateTravelerButton_Click(object? sender, RoutedEventArgs e)
         {
             string? name = NameTextBox.Text;
 
@@ -43,11 +43,11 @@ namespace SmartTravelPlanner
 
             _traveler = new Traveler(name);
             _traveler.SetLocation(location);
-            RefreshRoute();
+            RefreshRouteDisplay();
             MapStatusTextBlock.Text = $"Traveler {name} created at {location}.";
         }
 
-        private async void LoadMap_Click(object? sender, RoutedEventArgs e)
+        private async void LoadMapButton_Click(object? sender, RoutedEventArgs e)
         {
             var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
@@ -82,7 +82,7 @@ namespace SmartTravelPlanner
             {
                 _map = CityGraph.LoadFromFile(path);
                 MapStatusTextBlock.Text = "Loaded: " + Path.GetFileName(path);
-                RefreshRoute();
+                RefreshRouteDisplay();
             }
             catch (FileNotFoundException)
             {
@@ -94,7 +94,7 @@ namespace SmartTravelPlanner
             }
         }
 
-        private async void PlanRoute_Click(object? sender, RoutedEventArgs e)
+        private async void PlanRouteButton_Click(object? sender, RoutedEventArgs e)
         {
             if (_traveler is null)
             {
@@ -121,7 +121,7 @@ namespace SmartTravelPlanner
             try
             {
                 _traveler.PlanRouteTo(destination, _map);
-                RefreshRoute();
+                RefreshRouteDisplay();
             }
             catch (RouteNotFoundException ex)
             {
@@ -137,7 +137,7 @@ namespace SmartTravelPlanner
             }
         }
 
-        private async void ClearRoute_Click(object? sender, RoutedEventArgs e)
+        private async void ClearRouteButton_Click(object? sender, RoutedEventArgs e)
         {
             if (_traveler is null)
             {
@@ -146,11 +146,11 @@ namespace SmartTravelPlanner
             }
 
             _traveler.ClearRoute();
-            RefreshRoute();
+            RefreshRouteDisplay();
             MapStatusTextBlock.Text = "Route cleared.";
         }
 
-        private async void AddConnection_Click(object? sender, RoutedEventArgs e)
+        private async void AddConnectionButton_Click(object? sender, RoutedEventArgs e)
         {
             if (_map is null)
             {
@@ -197,7 +197,7 @@ namespace SmartTravelPlanner
             try
             {
                 _map.AddConnection(cityA, cityB, distance);
-                RefreshRoute();
+                RefreshRouteDisplay();
                 MapStatusTextBlock.Text = $"Added: {cityA} - {cityB}, {distance} km";
             }
             catch (ArgumentException ex)
@@ -206,7 +206,7 @@ namespace SmartTravelPlanner
             }
         }
 
-        private async void RemoveConnection_Click(object? sender, RoutedEventArgs e)
+        private async void RemoveConnectionButton_Click(object? sender, RoutedEventArgs e)
         {
             if (_map is null)
             {
@@ -242,11 +242,11 @@ namespace SmartTravelPlanner
                 return;
             }
 
-            RefreshRoute();
+            RefreshRouteDisplay();
             MapStatusTextBlock.Text = $"Removed: {cityA} - {cityB}";
         }
 
-        private async void Save_Click(object? sender, RoutedEventArgs e)
+        private async void SaveButton_Click(object? sender, RoutedEventArgs e)
         {
             if (_traveler is null)
             {
@@ -295,7 +295,7 @@ namespace SmartTravelPlanner
             }
         }
 
-        private async void Load_Click(object? sender, RoutedEventArgs e)
+        private async void LoadButton_Click(object? sender, RoutedEventArgs e)
         {
             var files = await StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
@@ -332,7 +332,7 @@ namespace SmartTravelPlanner
                 _traveler = loaded;
                 NameTextBox.Text = loaded.GetName();
                 LocationTextBox.Text = loaded.GetLocation() ?? "";
-                RefreshRoute();
+                RefreshRouteDisplay();
             }
             catch (FileNotFoundException)
             {
@@ -348,7 +348,7 @@ namespace SmartTravelPlanner
             }
         }
 
-        private void RefreshRoute()
+        private void RefreshRouteDisplay()
         {
             List<string> cities = _traveler?.GetRouteCities() ?? new List<string>();
             RouteListBox.ItemsSource = cities;

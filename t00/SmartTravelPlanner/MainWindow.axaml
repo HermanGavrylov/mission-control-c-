@@ -42,7 +42,7 @@
                                 <Button x:Name="CreateTravelerButton" Classes="primary"
                                         Content="CREATE TRAVELER"
                                         HorizontalAlignment="Left"
-                                        Click="CreateTraveler_Click"/>
+                                        Click="CreateTravelerButton_Click"/>
                             </StackPanel>
                         </Border>
 
@@ -52,7 +52,7 @@
                                 <StackPanel Orientation="Horizontal" Spacing="14">
                                     <Button x:Name="LoadMapButton" Classes="primary"
                                             Content="LOAD MAP"
-                                            Click="LoadMap_Click"/>
+                                            Click="LoadMapButton_Click"/>
                                     <TextBlock x:Name="MapStatusTextBlock" Classes="muted"
                                                Text="No map loaded"
                                                VerticalAlignment="Center"/>
@@ -70,7 +70,7 @@
                                 <Button x:Name="PlanRouteButton" Classes="primary"
                                         Content="PLAN ROUTE"
                                         HorizontalAlignment="Left"
-                                        Click="PlanRoute_Click"/>
+                                        Click="PlanRouteButton_Click"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -105,9 +105,9 @@
                                 </Grid>
                                 <StackPanel Orientation="Horizontal" Spacing="12">
                                     <Button x:Name="AddConnectionButton" Classes="primary"
-                                            Content="ADD" Click="AddConnection_Click"/>
+                                            Content="ADD" Click="AddConnectionButton_Click"/>
                                     <Button x:Name="RemoveConnectionButton" Classes="secondary"
-                                            Content="REMOVE" Click="RemoveConnection_Click"/>
+                                            Content="REMOVE" Click="RemoveConnectionButton_Click"/>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
@@ -117,9 +117,9 @@
                 <Border BorderBrush="#3D8FC0" BorderThickness="0,1,0,0" Padding="0,18,0,0">
                     <StackPanel Orientation="Horizontal" Spacing="12"
                                 HorizontalAlignment="Right">
-                        <Button x:Name="SaveButton" Classes="primary" Content="SAVE" Click="Save_Click"/>
-                        <Button x:Name="LoadButton" Classes="secondary" Content="LOAD" Click="Load_Click"/>
-                        <Button x:Name="ClearRouteButton" Classes="secondary" Content="CLEAR ROUTE" Click="ClearRoute_Click"/>
+                        <Button x:Name="SaveButton" Classes="primary" Content="SAVE" Click="SaveButton_Click"/>
+                        <Button x:Name="LoadButton" Classes="secondary" Content="LOAD" Click="LoadButton_Click"/>
+                        <Button x:Name="ClearRouteButton" Classes="secondary" Content="CLEAR ROUTE" Click="ClearRouteButton_Click"/>
                         <Button x:Name="ExitButton" Classes="danger" Content="EXIT" Click="ExitButton_Click"/>
                     </StackPanel>
                 </Border>
