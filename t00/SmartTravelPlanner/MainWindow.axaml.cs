@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Travelling;
+using System.Text.Json;
 
 namespace SmartTravelPlanner
 {
@@ -156,6 +157,12 @@ namespace SmartTravelPlanner
                 return;
             }
 
+            if (!string.Equals(Path.GetExtension(path), ".json", StringComparison.OrdinalIgnoreCase))
+            {
+                await ErrorDialog.ShowAsync(this, "Invalid file type. Please save as a .json file.");
+                return;
+            }
+
             try
             {
                 traveler.SaveToFile(path);
@@ -188,16 +195,39 @@ namespace SmartTravelPlanner
                 return;
             }
 
+            string? path = files[0].TryGetLocalPath();
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                await ErrorDialog.ShowAsync(this, "Could not read the selected file path.");
+                return;
+            }
+
+            if (!string.Equals(Path.GetExtension(path), ".json", StringComparison.OrdinalIgnoreCase))
+            {
+                await ErrorDialog.ShowAsync(this, "Invalid file type. Please select a .json file.");
+                return;
+            }
+
             try
             {
-                traveler = Traveler.LoadFromFile(files[0].Path.LocalPath);
+                Traveler loaded = Traveler.LoadFromFile(path);
+                traveler = loaded;
                 NameTextBox.Text = traveler.GetName();
                 LocationTextBox.Text = traveler.GetLocation();
                 RefreshRoute();
             }
-            catch (Exception ex)
+            catch (FileNotFoundException)
             {
-                await ErrorDialog.ShowAsync(this, ex.Message);
+                await ErrorDialog.ShowAsync(this, "Traveler file not found.");
+            }
+            catch (FileLoadException)
+            {
+                await ErrorDialog.ShowAsync(this, "Invalid traveler file.");
+            }
+            catch (JsonException)
+            {
+                await ErrorDialog.ShowAsync(this, "The file is not valid JSON.");
             }
         }
 
