@@ -41,7 +41,8 @@
                                 </StackPanel>
                                 <Button x:Name="CreateTravelerButton" Classes="primary"
                                         Content="CREATE TRAVELER"
-                                        HorizontalAlignment="Left"/>
+                                        HorizontalAlignment="Left"
+                                        Click="CreateTraveler_Click"/>
                             </StackPanel>
                         </Border>
 
@@ -50,7 +51,8 @@
                                 <TextBlock Classes="title" Text="02 / MAP"/>
                                 <StackPanel Orientation="Horizontal" Spacing="14">
                                     <Button x:Name="LoadMapButton" Classes="primary"
-                                            Content="LOAD MAP"/>
+                                            Content="LOAD MAP"
+                                            Click="LoadMap_Click"/>
                                     <TextBlock x:Name="MapStatusTextBlock" Classes="muted"
                                                Text="No map loaded"
                                                VerticalAlignment="Center"/>
@@ -67,7 +69,8 @@
                                 </StackPanel>
                                 <Button x:Name="PlanRouteButton" Classes="primary"
                                         Content="PLAN ROUTE"
-                                        HorizontalAlignment="Left"/>
+                                        HorizontalAlignment="Left"
+                                        Click="PlanRoute_Click"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -114,10 +117,10 @@
                 <Border BorderBrush="#3D8FC0" BorderThickness="0,1,0,0" Padding="0,18,0,0">
                     <StackPanel Orientation="Horizontal" Spacing="12"
                                 HorizontalAlignment="Right">
-                        <Button x:Name="SaveButton" Classes="primary" Content="SAVE"/>
-                        <Button x:Name="LoadButton" Classes="secondary" Content="LOAD"/>
-                        <Button x:Name="ClearRouteButton" Classes="secondary" Content="CLEAR ROUTE"/>
-                        <Button x:Name="ExitButton" Classes="danger" Content="EXIT"/>
+                        <Button x:Name="SaveButton" Classes="primary" Content="SAVE" Click="Save_Click"/>
+                        <Button x:Name="LoadButton" Classes="secondary" Content="LOAD" Click="Load_Click"/>
+                        <Button x:Name="ClearRouteButton" Classes="secondary" Content="CLEAR ROUTE" Click="ClearRoute_Click"/>
+                        <Button x:Name="ExitButton" Classes="danger" Content="EXIT" Click="ExitButton_Click"/>
                     </StackPanel>
                 </Border>
 

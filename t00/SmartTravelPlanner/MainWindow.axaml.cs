@@ -15,14 +15,6 @@ namespace SmartTravelPlanner
         public MainWindow()
         {
             InitializeComponent();
-
-            CreateTravelerButton.Click += CreateTraveler_Click;
-            LoadMapButton.Click += LoadMap_Click;
-            PlanRouteButton.Click += PlanRoute_Click;
-            ClearRouteButton.Click += ClearRoute_Click;
-            SaveButton.Click += Save_Click;
-            LoadButton.Click += Load_Click;
-            ExitButton.Click += (s, e) => Close();
         }
 
         private async void CreateTraveler_Click(object? sender, RoutedEventArgs e)
@@ -177,6 +169,11 @@ namespace SmartTravelPlanner
             {
                 TotalDistanceTextBlock.Text = "Total distance: -";
             }
+        }
+
+        private void ExitButton_Click(object? sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
