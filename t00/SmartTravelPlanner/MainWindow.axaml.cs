@@ -93,12 +93,30 @@ namespace SmartTravelPlanner
                 return;
             }
 
+            string? destination = DestinationTextBox.Text;
+
+            if (string.IsNullOrWhiteSpace(destination))
+            {
+                await ErrorDialog.ShowAsync(this, "Destination cannot be empty.");
+                return;
+            }
+
+            destination = destination.Trim();
+
             try
             {
-                traveler.PlanRouteTo(DestinationTextBox.Text ?? "", graph);
+                traveler.PlanRouteTo(destination, graph);
                 RefreshRoute();
             }
-            catch (Exception ex)
+            catch (RouteNotFoundException ex)
+            {
+                await ErrorDialog.ShowAsync(this, ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                await ErrorDialog.ShowAsync(this, ex.Message);
+            }
+            catch (InvalidOperationException ex)
             {
                 await ErrorDialog.ShowAsync(this, ex.Message);
             }
